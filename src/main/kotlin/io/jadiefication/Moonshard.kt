@@ -7,13 +7,11 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import com.github.ajalt.clikt.parameters.types.choice
 import io.jadiefication.minecraft.Versions
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.cio.CIO
-import io.ktor.client.request.get
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class Moonshard: CliktCommand() {
 
@@ -24,7 +22,9 @@ class Moonshard: CliktCommand() {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     init {
+        scope.launch {
 
+        }
     }
 
     override fun run() {
