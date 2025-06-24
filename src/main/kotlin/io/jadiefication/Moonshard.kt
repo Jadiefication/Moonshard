@@ -10,13 +10,13 @@ import io.jadiefication.minecraft.Versions
 
 class Moonshard: CliktCommand() {
 
-    private val options = Versions.entries.map { it.name.lowercase() }.toTypedArray()
-    val version = option("--version", "-v").choice(*options).prompt("Minecraft version").help {
+    private val options = Versions.entries.map { it.version }.toTypedArray()
+    val version: String by option("--version", "-v").choice(*options).prompt("Minecraft version").help {
         return@help "The minecraft version of the mods"
     }
 
     override fun run() {
-        TODO("Not yet implemented")
+        echo("test: $version")
     }
 }
 
