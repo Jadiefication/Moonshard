@@ -16,7 +16,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import org.jline.terminal.TerminalBuilder
 import kotlin.collections.lastOrNull
 
 class Moonshard: CliktCommand() {
@@ -31,17 +34,49 @@ class Moonshard: CliktCommand() {
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
     private val modrinthSearch = "https://api.modrinth.com/v2/search"
 
-    override fun run() {
+    override fun run() = runBlocking {
+        val displayJob = launch {
+            val body = this@Moonshard.handleGettingProjects()
+            while (true) {
+                echo(body)
+                delay(1000)
+            }
+        }
+
+        val keypressJob = launch(Dispatchers.IO) {
+            val terminal = TerminalBuilder.builder().system(true).jna(false).build()
+            terminal.enterRawMode()
+            val reader = terminal.reader()
+            while (true) {
+                val c = reader.read()
+                if (c == 27 && reader.read() == 91 &&
+                    reader.read() == 50 && reader.read() == 49 &&
+                    reader.read() == 126
+                ) {
+                    terminal.close()
+                    echo("F10 pressed. Exiting...")
+                    kotlin.system.exitProcess(0)
+                }
+            }
+        }
+
+        displayJob.join()
+        keypressJob.join()
+    }
+
+    private fun handleGettingProjects(): String {
         val category = Versions.valueOf("V$version".replace(".", "_")).profile.name.lowercase()
         val response = modrinthSearch.httpGet {
             val query = Parameter("query", name)
-            val faucets = Parameter("facets", "[[\"project_type:mod\"],[\"categories:$category\"],[\"versions:$version\"]]")
+            val faucets = Parameter(
+                "facets",
+                "[[\"project_type:mod\"],[\"categories:$category\"],[\"versions:$version\"]]"
+            )
 
             return@httpGet listOf(query, faucets)
         }.responseString().second
-        val body = response.body().asString(response.headers[Headers.CONTENT_TYPE].lastOrNull())
-        echo(body)
-
+        return response.body().asString(response.headers[Headers.CONTENT_TYPE].lastOrNull())
+            .substringBefore(",\"offset\":").substringAfter("{\"hits\":")
     }
 }
 
