@@ -2,8 +2,6 @@
 
 **Moonshard** is a terminal-based Kotlin application (TUI) that installs [Modrinth](https://modrinth.com) and [CurseForge](https://www.curseforge.com) mods directly into your [Lunar Client](https://www.lunarclient.com) setup on Linux. It automates downloading and installing compatible mods, offering a fast, streamlined experience for customizing your client.
 
----
-
 ## ✨ Features
 
 * 📦 Install Minecraft mods from **Modrinth** and **CurseForge**
@@ -12,15 +10,11 @@
 * ⚖️ Configurable installation path
 * 🐧 Linux support only (for now)
 
----
-
 ## 📦 Requirements
 
 * [Java 17+](https://openjdk.org/projects/jdk/17/)
 * [Maven](https://maven.apache.org/)
 * Linux OS (tested on major distros)
-
----
 
 ## 🚀 Installation
 
@@ -44,8 +38,6 @@ The JAR will be located in the `target/` directory.
 ```bash
 java -jar target/moonshard.jar
 ```
-
----
 
 ## 💠 Usage
 
@@ -73,8 +65,6 @@ You can change the path via the configuration file located at:
 ~/.moonshard/config.json
 ```
 
----
-
 ## 🔌 Mod Sources
 
 * [Modrinth API](https://docs.modrinth.com)
@@ -82,15 +72,11 @@ You can change the path via the configuration file located at:
 
 Authentication is not required. All requests use public endpoints.
 
----
-
 ## ⚠️ Limitations
 
 * ❌ No Windows/macOS support (yet)
 * ❌ No offline mode (requires API access)
 * ❌ No auto-detection of mod compatibility (coming soon)
-
----
 
 ## 🧑‍💻 Built With
 
@@ -99,8 +85,6 @@ Authentication is not required. All requests use public endpoints.
 * [Ktor](https://ktor.io) for HTTP requests
 * [Clikt](https://ajalt.github.io/clikt/) for CLI handling
 * [Kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) for config and API data
-
----
 
 ## 📄 License
 
